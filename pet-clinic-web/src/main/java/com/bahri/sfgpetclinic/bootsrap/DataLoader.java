@@ -1,10 +1,7 @@
 package com.bahri.sfgpetclinic.bootsrap;
 
 import com.bahri.sfgpetclinic.model.*;
-import com.bahri.sfgpetclinic.services.OwnerService;
-import com.bahri.sfgpetclinic.services.PetTypeService;
-import com.bahri.sfgpetclinic.services.SpecialityService;
-import com.bahri.sfgpetclinic.services.VetService;
+import com.bahri.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +14,15 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -99,5 +98,13 @@ public class DataLoader implements CommandLineRunner {
         vet2.getSpecialities().add(savedSurgey);
 
         vetService.save(vet2);
+
+
+        Visit visit = new Visit();
+        visit.setPet(fionasPet);
+        visit.setDate(LocalDate.now());
+        visit.setDescription("Sneezy Kitty");
+
+        visitService.save(visit);
     }
 }
