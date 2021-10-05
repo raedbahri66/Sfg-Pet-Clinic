@@ -41,7 +41,7 @@ public class OwnerSDJPAService implements OwnerService {
 
     @Override
     public void delete(Owner object) {
-        ownerRepository.save(object);
+        ownerRepository.delete(object);
     }
 
     @Override
