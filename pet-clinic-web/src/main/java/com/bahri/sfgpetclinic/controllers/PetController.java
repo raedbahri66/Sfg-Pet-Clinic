@@ -73,12 +73,14 @@ public class PetController {
         if (StringUtils.hasLength(pet.getName()) && pet.getId() == null && owner.getPets().stream().anyMatch(pet1 -> pet1.getName().equals(pet.getName()))){
             result.rejectValue("name", "duplicate", "already exists");
         }
+        pet.setOwner(owner);
         owner.getPets().add(pet);
         if (result.hasErrors()) {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         } else {
             petService.save(pet);
+            ownerService.save(owner);
 
             return "redirect:/owners/" + owner.getId();
         }
