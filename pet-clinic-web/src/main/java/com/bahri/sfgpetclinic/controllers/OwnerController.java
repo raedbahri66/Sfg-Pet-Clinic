@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RequestMapping("/owners")
 @Controller
 public class OwnerController {
 
@@ -26,20 +25,20 @@ public class OwnerController {
     }
 
 
-    @GetMapping("/{ownerId}")
+    @GetMapping("/owners/{ownerId}")
     public ModelAndView showOwner(@PathVariable Long ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(ownerService.findById(ownerId));
         return mav;
     }
 
-    @GetMapping("/find")
+    @GetMapping("/owners/find")
     public String findOwners(Model model) {
         model.addAttribute("owner", Owner.builder().build() );
         return "owners/findOwners";
     }
 
-    @GetMapping
+    @GetMapping("/owners")
     public String processFindForm(Owner owner, BindingResult result, Model model){
         // allow parameterless GET request for /owners to return all records
         if (owner.getLastName() == null) {
@@ -64,13 +63,13 @@ public class OwnerController {
         }
     }
 
-    @GetMapping("/new")
+    @GetMapping("/owners/new")
     public String initCreationForm(Model model) {
         model.addAttribute("owner", Owner.builder().build());
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/owners/new")
     public String processCreationForm(Owner owner, BindingResult result) {
         if (result.hasErrors()) {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
@@ -80,13 +79,13 @@ public class OwnerController {
         }
     }
 
-    @GetMapping("/{ownerId}/edit")
+    @GetMapping("/owners/{ownerId}/edit")
     public String initUpdateOwnerForm(@PathVariable Long ownerId, Model model) {
         model.addAttribute(ownerService.findById(ownerId));
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/{ownerId}/edit")
+    @PostMapping("/owners/{ownerId}/edit")
     public String processUpdateOwnerForm(Owner owner, BindingResult result, @PathVariable Long ownerId) {
         if (result.hasErrors()) {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
